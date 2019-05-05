@@ -1,0 +1,58 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/bstree.h
+node.h
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/node.h
+iterator.h
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/iterator.h
+stack
+-
+
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/iterator.h
+node.h
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/node.h
+stack
+-
+
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/main.cpp
+iostream
+-
+tester/tester.h
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/tester/tester.h
+
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/mocker/mocker.h
+random
+-
+type_traits
+-
+
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/node.h
+iostream
+-
+
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/tester/tester.cpp
+tester.h
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/tester/tester.h
+
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/tester/tester.h
+stdexcept
+-
+iostream
+-
+assert.h
+-
+vector
+-
+algorithm
+-
+../mocker/mocker.h
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/mocker/mocker.h
+../bstree.h
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/bstree.h
+

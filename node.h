@@ -1,5 +1,7 @@
 #ifndef NODE_H
 #define NODE_H
+#include <iostream>
+using namespace std;
 
 template <typename T>
 class BSTree; 
@@ -18,7 +20,21 @@ class Node {
     friend class BSTree; 
 
     template<class>
-    friend class Iterator; 
+    friend class Iterator;
+
+public:
+    Node(T data){
+        left = right = nullptr;
+        this->data = data;
+    };
+
+    void genocidio(){
+        if (left) left->genocidio();
+        if (right) right->genocidio();
+        delete this;
+    };
+
+
 };
 
 #endif
