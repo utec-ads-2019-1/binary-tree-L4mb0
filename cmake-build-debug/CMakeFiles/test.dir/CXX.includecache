@@ -39,6 +39,8 @@ iostream
 /root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/tester/tester.cpp
 tester.h
 /root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/tester/tester.h
+../bstree.h
+/root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/bstree.h
 
 /root/Documentos/Tareas/cursos de carreara varoniles/ciclo 5/AED/labs/binary-tree-L4mb0/tester/tester.h
 stdexcept

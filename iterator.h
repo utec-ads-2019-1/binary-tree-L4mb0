@@ -8,21 +8,22 @@ template<typename T>
 class Iterator {
 protected:
     Node<T> *current;
-    stack<Node<T>*> daStack;
+    stack<Node<T>*> *daStack;
+    stack<Node<T>*> *oldStack;
+
 
 public:
-    Iterator() : current(nullptr) {}
+    Iterator() : current(nullptr) {
+        this->daStack = new stack<Node<T>*>();
+        this->oldStack = new stack<Node<T>*>();
 
-    Iterator(Node<T> *node) : current(node){
-        //meto todos los valores al stack
-        daStack.push(current);
-        while(current->left){
-            current = current->left;
-            daStack.push(current);
-        }
     }
 
-    Iterator<T> operator=(Iterator<T> other) {
+    Iterator(Node<T> *node) : current(node){
+
+    }
+
+    Iterator<T>& operator=(Iterator<T> other) {
         current = other.current;
         daStack = other.daStack;
         return *this;
@@ -33,50 +34,26 @@ public:
     }
 
     Iterator<T> operator++() {
-        if (current->right) {
-            daStack.push(current);
-            current = current->right;
-
-            while (current->left) {
-                daStack.push(current);
-                current = current->left;
-            }
-        } else {
-            while (!daStack.empty() && current == daStack.top()->right) {
-                current = daStack.top();
-                daStack.pop();
-            }
-
-            if (!daStack.empty()) {
-                current = daStack.top();
-                daStack.pop();
+        if (current->right){
+            auto iterador= current->right;
+            while(iterador){
+                daStack->push(iterador);
+                iterador=iterador->left;
             }
         }
+        if (!daStack->empty()){
+            current=daStack->top();
+            daStack->pop();
+        } else current= nullptr;
+
 
         return *this;
     }
 
     Iterator<T> operator--() {
-        if (current->left) {
-            daStack.push(current);
-            current = current->left;
-
-            while (current->right) {
-                daStack.push(current);
-                current = current->right;
-            }
-        } else {
-            while (!daStack.empty() && current == daStack.top()->left) {
-                current = daStack.top();
-                daStack.pop();
-            }
-
-            if (!daStack.empty()) {
-                current = daStack.top();
-                daStack.pop();
-            }
-        }
-
+        daStack->push(oldStack->top());
+        oldStack->pop();
+        current = daStack->top();
         return *this;
     }
 

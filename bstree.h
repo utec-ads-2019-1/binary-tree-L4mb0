@@ -8,7 +8,7 @@
 
 template<typename T>
 class BSTree {
-private:
+protected:
     Node<T> *root;
     unsigned int nodes;
 
@@ -16,13 +16,6 @@ public:
 
     BSTree() : root(nullptr) {
         this->nodes = 0;
-    }
-
-    void swap(T a, T b){
-        T temp;
-        temp = b;
-        b= a;
-        a = temp;
     }
 
     bool find(T data) {
@@ -76,90 +69,143 @@ public:
         } else return false;
     }
 
-
-
-    //trate de haerlo iterativamente pero esta bien feito, pero deberia funcar para arboles balanceados
     /*bool remove(T data) {
-        if(find(data)){
-            auto iterador = root;
-            auto parent = new Node<T>(data);
-            while(iterador) {
-                if (data < iterador->data) {
-                    parent = iterador;
-                    iterador = iterador->left;
-                }
-                else if (data > iterador->data) {
-                    parent = iterador;
-                    iterador = iterador->right;
-                }
-                else{
-                    if (!iterador->right && !iterador->left){
-                        if (parent->left == iterador) {
-                            parent->left = nullptr;
-                        }
-                        else {
-                            parent->right = nullptr;
-                        }
+        auto iterador = root;
+        auto parent = root;
+        while (iterador) {
+            if (data < iterador->data) {
+                parent = iterador;
+                iterador = iterador->left;
+            } else if (data > iterador->data) {
+                parent = iterador;
+                iterador = iterador->right;
+            } else if (data == iterador->data) {
 
-                        delete iterador;
-                        nodes--;
-                        return true;
-                    }
-                    else if (!iterador->right || !iterador->left){
-                        if(iterador->left) parent->left = iterador->left; else parent->left = iterador->right;
-
-                        if(iterador->right) parent->right = iterador->right; else parent->right = iterador->left;
-                        delete iterador;
-                        nodes--;
-                        return true;
-                    }
-                    else{
-                        auto sacrificio = iterador->left;
-                        while(sacrificio->right){
-                            parent = sacrificio;
-                            sacrificio = sacrificio->right;
-                        }
-                        iterador->data = sacrificio->data;
+                ///NO CHILD
+                if (!iterador->right && !iterador->left) {
+                    if (parent->left == iterador) {
+                        parent->left = nullptr;
+                    } else {
                         parent->right = nullptr;
-                        delete sacrificio;
-                        nodes--;
-                        return true;
-
                     }
 
+                    delete iterador;
+                    nodes--;
+                    return true;
 
+                ///ONE CHILD
+                } else if (!iterador->right || !iterador->left) {
+                    if (parent->left == iterador) {
+                        if (iterador->left) { parent->left = iterador->left; }
+                        else parent->left = iterador->right;
+                    }
 
+                    if (parent->right == iterador) {
+                        if (iterador->right) parent->right = iterador->right;
+                        else parent->right = iterador->left;
+                    }
+                    if (iterador == root) {
+                        if (iterador->right) root = iterador->right;
+                        else iterador->left;
+                    }
+                    delete iterador;
+                    nodes--;
+                    return true;
 
+                ///TWO CHILD
+                } else {
+                    auto sacrificio = iterador->left;
+                    parent = iterador;
+                    while (sacrificio->right) {
+                        parent = sacrificio;
+                        sacrificio = sacrificio->right;
+                    }
+                    iterador->data = sacrificio->data;
+
+                    if (parent != iterador) {
+                        if (!sacrificio->left) {
+                            parent->right = nullptr;
+                            nodes--;
+                            return true;
+                        } else {
+                            parent->right = sacrificio->left;
+                            nodes--;
+                            return true;
+
+                        }
+                    } else {
+                        if (!sacrificio->left) {
+                            parent->left = nullptr;
+                            nodes--;
+                            return true;
+                        } else {
+                            parent->left = sacrificio->left;
+                            delete sacrificio;
+                            nodes--;
+                            return true;
+
+                        }
+                    }
                 }
-
-
-            }
-        } else return false;
+            } else return false;
+        }
+        return false;
     }*/
 
-    //trate de armarlo con doble puntero pero tengo mis limitaciones :,v
+
     bool remove(T data) {
-        if(find(data)) {
+        auto iterador = root;
+        Node<T> **parent = &iterador;
+        while (iterador) {
+            if (data < iterador->data) {
+                parent = &(iterador->left);
+                iterador = iterador->left;
+            } else if (data > iterador->data) {
+                parent = &(iterador->right);
+                iterador = iterador->right;
+            } else if (data == iterador->data) {
 
-            Node<T> **fatherptr;
-            auto daLeft = (*fatherptr)->left;
-            auto daRight = (*fatherptr)->right;
-
-            if (daLeft && daRight) {
-                *fatherptr = daLeft;
-                while (daLeft->right) {
-                    daLeft = daLeft->right;
+                ///NO CHILD
+                if (!iterador->right && !iterador->left) {
+                    *parent = nullptr;
+                    delete iterador;
+                    nodes--;
+                    return true;
                 }
-                daLeft->right = daRight;
-            } else if (daLeft || daRight) {
-                *fatherptr = daLeft ? daLeft : daRight;
-            } else {
-                delete *fatherptr;
-            }
-            nodes--;
-            return true;
+
+                ///ONE CHILD
+                else if (iterador->right || iterador->left) {
+                    if (iterador->right) {
+                        *parent = iterador->right;
+                        delete iterador;
+                    } else if (iterador->left) {
+                        *parent = iterador->left;
+                        delete iterador;
+                        nodes--;
+                        return true;
+
+                    }
+                }
+
+                ///TWO CHILD
+                else{
+                    auto rightest = iterador->left;
+                    while (rightest->right != nullptr) {
+                        rightest = rightest->right;
+                    }
+                    T temp = rightest->data;
+                    remove(rightest->data);
+                    iterador->data = temp;
+                    delete iterador;
+                    nodes--;
+                    return true;
+                }
+
+            } else return false;
         }
+        return false;
     }
+
 
     unsigned int size() {
         return nodes;
@@ -175,8 +221,8 @@ public:
 
     void traverseInOrder(Node<T> node) {
         if (!node) return;
-        printf("%d ", root->data);
         traversInOrder(node.left);
+        printf("%d ", root->data);
         traverseInOrder(node.right);
     }
 
@@ -187,45 +233,46 @@ public:
         printf("%d ", root->data);
     }
 
-    Node<T> goAllRight(){
+    Node<T> goAllRight() {
         auto iterador = root;
-        while (iterador){
-            if (iterador->right){
+        while (iterador) {
+            if (iterador->right) {
                 iterador = iterador->right;
-            }
-            else return iterador;
+            } else return iterador;
         }
     }
 
-    Node<T> goAllLeft(){
+    Node<T> goAllLeft() {
         auto iterador = root;
-        while (iterador){
-            if (iterador->left){
+        while (iterador) {
+            if (iterador->left) {
                 iterador = iterador->left;
-            }
-            else return iterador;
+            } else return iterador;
         }
     }
 
     Iterator<T> begin() {
-        stack<Node<T>*> tempStack;
+        stack < Node<T> * > tempStack;
         auto sacrificio = root;
-        while(sacrificio->left){
+        while (sacrificio->left) {
             tempStack.push(sacrificio);
-            sacrificio=sacrificio->left;
+            sacrificio = sacrificio->left;
         }
 
-       // return Iterator<T>(sacrificio, tempStack);
+        return Iterator<T>(root);
     }
 
     Iterator<T> end() {
-        stack<Node<T>*> tempStack;// return Iterator<T>(root, tempStack);
+        stack < Node<T> * > tempStack;
+        return Iterator<T>(root);
 
     }
 
-    ~BSTree() {
+    ~
+
+    BSTree() {
         if (root) root->genocidio();
-        root=nullptr;
+        root = nullptr;
     };
 };
 
