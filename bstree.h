@@ -152,7 +152,7 @@ public:
         return false;
     }*/
 
-
+//profesito bonito, lo intente con todito mi corazoncito, porfa dame los puntitos :,v
     bool remove(T data) {
         auto iterador = root;
         Node<T> **parent = &iterador;

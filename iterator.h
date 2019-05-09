@@ -34,6 +34,9 @@ public:
     }
 
     Iterator<T> operator++() {
+        oldStack->push(daStack->top());
+        daStack->pop();
+
         if (current->right){
             auto iterador= current->right;
             while(iterador){
@@ -43,7 +46,6 @@ public:
         }
         if (!daStack->empty()){
             current=daStack->top();
-            daStack->pop();
         } else current= nullptr;
 
 
