@@ -60,6 +60,9 @@ public:
     }
 
     T operator*() {
+        // Y el caso vacío?
+        // Si nunca das ++ o -- current nunca se actualiza, por tanto no funcionaría si el iterador recién se crea
+        // Deberías haber sacado el top de tu stack en vez de usar un puntero a Node
         return current->data;
     }
 
